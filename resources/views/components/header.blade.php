@@ -24,6 +24,7 @@
                     </li>
                     <li>
                         <form action="/logout" method="POST" class="d-inline">
+                            @csrf
                             <button type="submit" class="btn btn-sm btn-outline-danger"
                                 onclick="return confirm('Уверены что хотите выйти из профиля?')">Выход
                             </button>

@@ -4,6 +4,7 @@
 
 @section('content')
     <form class="col-12 col-md-6" method="POST" action="/login">
+        @csrf
         <h1 class="fs-2">Вход</h1>
 
         <div class="mb-3">
