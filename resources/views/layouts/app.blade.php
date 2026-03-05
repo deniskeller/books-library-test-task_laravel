@@ -18,6 +18,13 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
         <style>
+            .main {
+                margin-top: 40px;
+            }
+
+            .mb-40 {
+                margin-bottom: 40px;
+            }
         </style>
     @endif
 </head>
