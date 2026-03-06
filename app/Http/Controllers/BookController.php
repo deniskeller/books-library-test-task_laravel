@@ -24,10 +24,10 @@ class BookController extends Controller
                 $q->where('authors.id', $authorFilter);
             });
         }
-        $books = $query->with('authors')->paginate($perPage);
+        $books = $query->with('authors')->paginate($perPage)->withQueryString();
 
 
-        dump($books->lastPage());
+        // dump($books->lastPage());
 
         return view('pages.books.index', [
             'books' => $books,

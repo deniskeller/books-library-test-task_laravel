@@ -7,7 +7,19 @@ Route::get('/', function () {
     return view('pages.welcome');
 });
 
-Route::get('/books', [BookController::class, 'index'])->name('books');
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+
+Route::get('/books/create', function () {
+    return 'страница создания книги';
+})->name('books.create');
+
+Route::get('/books/edit', function () {
+    return 'страница редактирования книги';
+})->name('books.edit');
+
+Route::get('/books/destroy', function () {
+    return 'страница удаления книги';
+})->name('books.destroy');
 
 Route::get('/login', function () {
     return view('pages.login');
