@@ -3,5 +3,11 @@
 @section('title', 'Главная страница')
 
 @section('content')
-    <p>Это контент welcome.blade.php.</p>
+    <div class="row">
+        <div class="col-12">
+            <a href="/books" class="btn btn-success">
+                Библиотека
+            </a>
+        </div>
+    </div>
 @endsection

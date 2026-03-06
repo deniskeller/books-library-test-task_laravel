@@ -18,22 +18,17 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
         <style>
-            .main {
-                margin-top: 40px;
-            }
-
-            .mb-40 {
-                margin-bottom: 40px;
-            }
         </style>
     @endif
 </head>
 
-<body class="">
+<body class="d-flex flex-column min-vh-100">
     <x-header />
 
-    <main class="">
-        @yield('content')
+    <main class="py-4 px-4">
+        <div class="container">
+            @yield('content')
+        </div>
     </main>
 
     <x-footer />
