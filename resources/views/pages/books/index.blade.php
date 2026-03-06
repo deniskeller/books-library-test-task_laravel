@@ -3,8 +3,6 @@
 @section('title', 'Книги')
 
 @section('content')
-
-
     <div class="row mb-40">
         <div class="col-md-8 col-lg-9">
             <form class="row g-3">
@@ -46,9 +44,10 @@
                     <tbody>
                         <?php foreach ($books as $index => $book) : ?>
                         <tr>
-                            <th><?= $pagination->getOffset() + $index + 1 ?></th>
+                            <th>{{ $books->firstItem() + $index }}</th>
                             <td><?= $book['title'] ?></td>
-                            <td><?= htmlspecialchars($book['authors'] ?? 'Нет авторов') ?></td>
+                            <td>{{ !empty($book->authors) ? $book->authors->pluck('name')->implode(', ') : 'Нет авторов' }}
+                            </td>
                             <td><?= $book['year'] ?></td>
                             <td>
                                 <div class="action-buttons">
@@ -75,33 +74,34 @@
         </div>
     </div>
 
-    {{-- <?php if ($pagination->getCountPages() > 1): ?>
+    <?php if ($books->total() > 1): ?>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <li class="page-item <?= !$pagination->hasPrev() ? 'disabled' : '' ?>">
-                <a class="page-link" href="<?= $pagination->prevPageUrl() ?? '#' ?>" aria-label="Previous">
+            <li class="page-item <?= $books->onFirstPage() ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= $books->previousPageUrl() ?? '#' ?>" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
 
-            <?php for ($i = 1; $i <= $pagination->getCountPages(); $i++): ?>
-            <li class="page-item <?= $pagination->getCurrentPage() == $i ? 'active' : '' ?>">
+            <?php for ($i = 1; $i <= $books->lastPage(); $i++): ?>
+            <li class="page-item <?= $books->currentPage() == $i ? 'active' : '' ?>">
                 <?php if ($authorFilter) : ?>
-                <a class="page-link" href="?book-filter-author=<? echo $authorFilter ?>&page=<?= $i ?>"><?= $i ?></a>
+                <a class="page-link"
+                    href="?book-filter-author={{ $authorFilter }}&page={{ $i }}">{{ $i }}</a>
                 <?php else : ?>
-                <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                <a class="page-link" href="?page={{ $i }}">{{ $i }}</a>
                 <?php endif; ?>
             </li>
             <?php endfor; ?>
 
-            <li class="page-item <?= !$pagination->hasNext() ? 'disabled' : '' ?>">
-                <a class="page-link" href="<?= $pagination->nextPageUrl() ?? '#' ?>" aria-label="Next">
+            <li class="page-item <?= !$books->hasMorePages() ? 'disabled' : '' ?>">
+                <a class="page-link" href="<?= $books->nextPageUrl() ?? '#' ?>" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
-    <?php endif; ?> --}}
+    <?php endif; ?>
 
     <div class="row mt-4">
         <div class="col-12">
