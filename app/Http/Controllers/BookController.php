@@ -33,8 +33,13 @@ class BookController extends Controller
     // рендер страницы создания книги
     public function create(): View
     {
-        $authors = Author::all();
-        return view('pages.books.edit', compact('authors'));
+        $authors = Author::orderBy('name')->get();
+
+        return view('pages.books.edit', [
+            'book' => null,
+            'authors' => $authors,
+            'selectedAuthorIds' => []
+        ]);
     }
 
     // рендер страницы редатирования книги
@@ -43,12 +48,16 @@ class BookController extends Controller
         return view('pages.books.edit');
     }
 
-    // удаление книги
-    public function destroy($id): void {}
-
-    // запись новой книги в таблицу
-    public function store(): void {}
-
     // редактирование пданных книги
     public function update(): void {}
+
+    // запись новой книги в таблицу
+    public function store(Request $request): void
+    {
+        $input = $request->input();
+        dump($input);
+    }
+
+    // удаление книги
+    public function destroy($id): void {}
 }

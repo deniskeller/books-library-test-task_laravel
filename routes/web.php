@@ -9,6 +9,8 @@ Route::get('/', function () {
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/create', [BookController::class, 'create'])->name('books.edit');
+Route::get('/books/{photo}', [BookController::class, 'update'])->name('books.update');
+Route::post('/books', [BookController::class, 'store'])->name('books.store');
 
 Route::get('/books/edit', function () {
     return 'страница редактирования книги';
