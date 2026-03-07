@@ -118,7 +118,7 @@
 
     <div class="row mt-4">
         <div class="col-12">
-            <a href="{{ route('books.create') }}" class="btn btn-success">
+            <a href="{{ route('books.edit') }}" class="btn btn-success">
                 <i class="bi bi-plus-circle"></i> Добавить новую книгу
             </a>
         </div>

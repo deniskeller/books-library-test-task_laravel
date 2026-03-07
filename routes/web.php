@@ -8,10 +8,7 @@ Route::get('/', function () {
 });
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
-
-Route::get('/books/create', function () {
-    return 'страница создания книги';
-})->name('books.create');
+Route::get('/books/create', [BookController::class, 'create'])->name('books.edit');
 
 Route::get('/books/edit', function () {
     return 'страница редактирования книги';

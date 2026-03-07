@@ -10,13 +10,14 @@ use Illuminate\View\View;
 
 class BookController extends Controller
 {
+    // рендер страницы books
     public function index(Request $request): View
     {
         $authors = Author::all();
         $authorFilter = $request->input('book-filter-author');
 
         $perPage = 5;
-        $paginator = Book::paginate($perPage);
+        // $paginator = Book::paginate($perPage);
 
         $query = Book::query();
         if ($authorFilter) {
@@ -26,14 +27,28 @@ class BookController extends Controller
         }
         $books = $query->with('authors')->paginate($perPage)->withQueryString();
 
-
-        // dump($books->lastPage());
-
-        return view('pages.books.index', [
-            'books' => $books,
-            'authors' => $authors,
-            'authorFilter' => $authorFilter,
-            'paginator' => $paginator,
-        ]);
+        return view('pages.books.index', compact('books', 'authors', 'authorFilter'));
     }
+
+    // рендер страницы создания книги
+    public function create(): View
+    {
+        $authors = Author::all();
+        return view('pages.books.edit', compact('authors'));
+    }
+
+    // рендер страницы редатирования книги
+    public function edit($id): View
+    {
+        return view('pages.books.edit');
+    }
+
+    // удаление книги
+    public function destroy($id): void {}
+
+    // запись новой книги в таблицу
+    public function store(): void {}
+
+    // редактирование пданных книги
+    public function update(): void {}
 }
