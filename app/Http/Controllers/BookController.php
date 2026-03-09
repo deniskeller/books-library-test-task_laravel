@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBookRequest;
 use App\Models\Author;
 use App\Models\Book;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -52,10 +54,14 @@ class BookController extends Controller
     public function update(): void {}
 
     // запись новой книги в таблицу
-    public function store(Request $request): void
+    public function store(StoreBookRequest  $request): RedirectResponse
     {
-        $input = $request->input();
-        dump($input);
+        $validated = $request->validated();
+
+        dd($validated);
+
+
+        return redirect()->route('books.index');
     }
 
     // удаление книги

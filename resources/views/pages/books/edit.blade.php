@@ -15,22 +15,31 @@
 
             <div class="mb-3">
                 <label for="title" class="form-label">Название книги</label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
+                    value="{{ old('title') }}">
                 {{-- value="<?= getFormValue('title', $_SESSION['old_data'] ?? [], $book ?? null) ?>" --}}
-                {{-- <?php showError('title'); ?> --}}
+
+                @error('title')
+                    <span style="color: red">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="year" class="form-label">Год издания</label>
-                <input type="text" class="form-control" id="year" name="year">
+                <input type="text" class="form-control @error('year') is-invalid @enderror" id="year" name="year"
+                    value="{{ old('year') }}">
                 {{-- value="<?= getFormValue('year', $_SESSION['old_data'] ?? [], $book ?? null) ?>" --}}
-                {{-- <?php showError('year'); ?> --}}
+
+                @error('year')
+                    <span style="color: red">{{ $message }}</span>
+                @enderror
             </div>
 
             <?php if (!empty($authors)) : ?>
             <div class="mb-3">
                 <label for="authors_ids" class="form-label">Авторы</label>
-                <select multiple class="form-control" id="authors_ids" name="authors_ids[]" size="1">
+                <select multiple class="form-control @error('authors_ids') is-invalid @enderror" id="authors_ids"
+                    name="authors_ids[]" size="1">
                     <?php foreach ($authors as $author) : ?>
                     <option value="<?= $author['id'] ?>"
                         <?= in_array($author['id'], $selectedAuthorIds) ? 'selected' : '' ?>>
@@ -38,7 +47,10 @@
                     </option>
                     <?php endforeach; ?>
                 </select>
-                {{-- <?php showError('authors_ids'); ?> --}}
+
+                @error('authors_ids')
+                    <span style="color: red">{{ $message }}</span>
+                @enderror
             </div>
             <?php endif; ?>
 
