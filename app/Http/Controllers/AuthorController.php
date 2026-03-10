@@ -67,6 +67,41 @@ class AuthorController extends Controller
         return view('pages.authors.edit', compact('author'));
     }
 
+    // сохранение отредактированного автора автора
+    public function update(StoreAuthorRequest $request, $id): RedirectResponse
+    {
+
+        $author = Author::find($id);
+
+        if (!$author) {
+            return redirect()->route('authors.index')
+                ->with('error', 'Автор не найден');
+        }
+
+        $validated = $request->validated();
+
+        try {
+            $author->update([
+                'name' => $validated['name']
+            ]);
+
+            return redirect()->route('authors.index')
+                ->with('success', 'Автор успешно отредактирован');
+        } catch (\Exception $e) {
+            Log::error('[AuthorController::update] Ошибка при отредактировании автора', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->except('_token')
+            ]);
+
+            return back()->withInput()->with([
+                'error' => 'Ошибка при отредактировании автора',
+            ]);
+        }
+    }
+
     // удаление автора
     public function destroy(Request $request, $id): RedirectResponse
     {
