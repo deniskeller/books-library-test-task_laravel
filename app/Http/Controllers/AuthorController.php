@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAuthorRequest;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -25,31 +26,31 @@ class AuthorController extends Controller
         return view('pages.authors.edit', ['author' => null]);
     }
 
-    public function store(): void
+    public function store(StoreAuthorRequest  $request): RedirectResponse
     {
-        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //     $name = trim($_POST['name']);
+        $validated = $request->validated();
+        dd($validated);
 
-        //     // Валидация данных
-        //     $errors = $this->authorService->validateAuthorData($_POST);
+        try {
+            Author::create([
+                'name' => $validated['name']
+            ]);
 
-        //     if (!empty($errors)) {
-        //         $_SESSION['errors'] = $errors;
-        //         $_SESSION['old_data'] = $_POST;
-        //         Route::redirect('/authors/create');
-        //     }
+            return redirect()->route('authors.index')
+                ->with('success', 'Автор успешно добавлен');
+        } catch (\Exception $e) {
+            Log::error('[AuthorController::store] Ошибка при добавлении автора', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->except('_token')
+            ]);
 
-        //     if ($this->authorModel->create($name)) {
-        //         unset($_SESSION['old_data']);
-        //         unset($_SESSION['errors']);
-
-        //         $_SESSION['success'] = 'Автор успешно добавлен';
-        //         Route::redirect('/authors');
-        //     } else {
-        //         $_SESSION['error'] = 'Ошибка при добавлении автора';
-        //         Route::redirect('/authors/create');
-        //     }
-        // }
+            return back()->withInput()->with([
+                'error' => 'Ошибка при добавлении автора',
+            ]);
+        }
     }
 
     public function destroy(Request $request, $id): RedirectResponse

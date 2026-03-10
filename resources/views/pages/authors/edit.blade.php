@@ -7,6 +7,7 @@
         <h1><?= isset($author) ? 'Редактирование автора' : 'Добавление автора' ?></h1>
 
         <form method="POST" action="{{ isset($author) ? route('authors.update', $author->id) : route('authors.store') }}">
+            @csrf
             <!-- Для PUT запроса при редактировании -->
             @if (isset($author))
                 @method('PUT')

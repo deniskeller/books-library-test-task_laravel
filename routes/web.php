@@ -19,6 +19,7 @@ Route::post('/books', [BookController::class, 'store'])->name('books.store'); //
 Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit'); // страница редактирования книги
 Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update'); // сохранение отредактированной книги
 Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy'); // удаления книги
+
 Route::get('books/{id}/category/{category}', [BookController::class, 'show']); // тестовый роут для нескольких параметров
 
 // роуты авторов

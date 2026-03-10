@@ -23,7 +23,7 @@ class StoreAuthorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:2', 'max:255', new NoHtmlTags()],
+            'name' => ['required', 'string', 'min:2', 'max:255', 'unique:authors', new NoHtmlTags()],
         ];
     }
 
@@ -34,6 +34,7 @@ class StoreAuthorRequest extends FormRequest
             'name.min' => 'Имя автора должно состоять минимум из 2 символов',
             'name.max' => 'Имя автора должно состоять максимум из 255 символов',
             'name.regex' => 'HTML-теги запрещены',
+            'name.unique' => 'Такой автор уже существует',
         ];
     }
 
