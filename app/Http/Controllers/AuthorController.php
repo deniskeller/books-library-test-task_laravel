@@ -21,11 +21,13 @@ class AuthorController extends Controller
         return view('pages.authors.index', compact('authors'));
     }
 
+    // рендер страницы добавления автора
     public function create(): View
     {
         return view('pages.authors.edit', ['author' => null]);
     }
 
+    // сохранение нового автора
     public function store(StoreAuthorRequest  $request): RedirectResponse
     {
         $validated = $request->validated();
@@ -52,6 +54,19 @@ class AuthorController extends Controller
         }
     }
 
+    public function edit($id): RedirectResponse|View
+    {
+        $author = Author::find($id);
+
+        if (!$author) {
+            return redirect()->route('authors.index')
+                ->with('error', 'Автор не найдена');
+        }
+
+        return view('pages.authors.edit', compact('author'));
+    }
+
+    // удаление автора
     public function destroy(Request $request, $id): RedirectResponse
     {
         $author = Author::find($id);
