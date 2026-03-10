@@ -66,7 +66,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Удалить эту книгу?')">
+                                                onclick="return confirm('Удалить книгу «{{ $book->title }}»?')">
                                                 <i class="bi bi-trash"></i> Удалить
                                             </button>
                                         </form>
