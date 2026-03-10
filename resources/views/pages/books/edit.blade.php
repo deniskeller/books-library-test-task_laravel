@@ -17,7 +17,6 @@
                 <label for="title" class="form-label">Название книги</label>
                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
                     value="{{ old('title') }}">
-                {{-- value="<?= getFormValue('title', $_SESSION['old_data'] ?? [], $book ?? null) ?>" --}}
 
                 @error('title')
                     <span style="color: red">{{ $message }}</span>
@@ -28,7 +27,6 @@
                 <label for="year" class="form-label">Год издания</label>
                 <input type="text" class="form-control @error('year') is-invalid @enderror" id="year" name="year"
                     value="{{ old('year') }}">
-                {{-- value="<?= getFormValue('year', $_SESSION['old_data'] ?? [], $book ?? null) ?>" --}}
 
                 @error('year')
                     <span style="color: red">{{ $message }}</span>

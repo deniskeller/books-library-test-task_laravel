@@ -58,10 +58,25 @@ class BookController extends Controller
     {
         $validated = $request->validated();
 
-        dd($validated);
+        // dd($validated);
 
 
-        return redirect()->route('books.index');
+        try {
+            $book = Book::create([
+                'title' => $validated['title'],
+                'year' => $validated['year']
+            ]);
+
+            $book->authors()->attach($validated['authors_ids']);
+            dump($book);
+
+            return redirect()->route('books.index')
+                ->with('success', 'Книга успешно добавлена');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return back()->withInput()
+                ->withErrors(['error' => 'Ошибка при добавлении книги: ' . $e->getMessage()]);
+        }
     }
 
     // удаление книги
