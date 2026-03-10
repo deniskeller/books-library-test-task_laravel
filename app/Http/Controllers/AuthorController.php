@@ -12,15 +12,10 @@ use Illuminate\Support\Facades\Log;
 class AuthorController extends Controller
 {
     // рендер страницы авторов
-    public function index(Request $request): RedirectResponse|View
+    public function index(Request $request): View
     {
         $perPage = config('settings.per_page');
-        // $authors = Author::paginate($perPage);
         $authors = Author::withCount('books')->paginate($perPage);
-
-        if ($authors->isEmpty()) {
-            session()->now('error', 'Не удалось загрузить список авторов');
-        }
 
         return view('pages.authors.index', compact('authors'));
     }
@@ -31,7 +26,7 @@ class AuthorController extends Controller
 
         if (!$author) {
             return redirect()->route('authors.index')
-                ->with('error', 'Автор не найдена');
+                ->with('error', 'Автор не найден');
         }
 
         try {
