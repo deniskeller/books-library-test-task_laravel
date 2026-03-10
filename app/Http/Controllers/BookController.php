@@ -8,6 +8,7 @@ use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class BookController extends Controller
@@ -58,9 +59,6 @@ class BookController extends Controller
     {
         $validated = $request->validated();
 
-        // dd($validated);
-
-
         try {
             $book = Book::create([
                 'title' => $validated['title'],
@@ -68,14 +66,21 @@ class BookController extends Controller
             ]);
 
             $book->authors()->attach($validated['authors_ids']);
-            dump($book);
 
             return redirect()->route('books.index')
                 ->with('success', 'Книга успешно добавлена');
         } catch (\Exception $e) {
-            dd($e->getMessage());
-            return back()->withInput()
-                ->withErrors(['error' => 'Ошибка при добавлении книги: ' . $e->getMessage()]);
+            Log::error('[BookController::store] Ошибка при добавлении книги', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->except('_token')
+            ]);
+
+            return back()->withInput()->with([
+                'error' => 'Ошибка при добавлении книги',
+            ]);
         }
     }
 

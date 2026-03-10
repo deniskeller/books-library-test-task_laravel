@@ -25,6 +25,24 @@
 <body class="d-flex flex-column min-vh-100">
     <x-header />
 
+    @if ($errors->has('error'))
+        <div class="alert alert-danger">
+            {{ $errors->first('error') }}
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <main class="py-4 px-4">
         <div class="container">
             @yield('content')
