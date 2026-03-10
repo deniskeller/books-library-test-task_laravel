@@ -54,6 +54,7 @@ class AuthorController extends Controller
         }
     }
 
+    // рендер страницы редактирования автора
     public function edit($id): RedirectResponse|View
     {
         $author = Author::find($id);
