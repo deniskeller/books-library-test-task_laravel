@@ -71,6 +71,7 @@
 @push('scripts')
     <script>
         document.querySelectorAll('.delete-form').forEach(form => {
+            console.log('lel');
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const authorName = this.dataset.authorName;
