@@ -19,7 +19,7 @@ class BookController extends Controller
         $authors = Author::all();
         $authorFilter = $request->input('book-filter-author');
 
-        $perPage = 5;
+        $perPage = 2;
         // $paginator = Book::paginate($perPage);
 
         $query = Book::query();
