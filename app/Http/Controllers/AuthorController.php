@@ -29,7 +29,6 @@ class AuthorController extends Controller
     public function store(StoreAuthorRequest  $request): RedirectResponse
     {
         $validated = $request->validated();
-        dd($validated);
 
         try {
             Author::create([
