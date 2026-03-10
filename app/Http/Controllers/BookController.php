@@ -19,7 +19,7 @@ class BookController extends Controller
         $authors = Author::all();
         $authorFilter = $request->input('book-filter-author');
 
-        $perPage = 10;
+        $perPage = config('settings.per_page');
 
         $query = Book::query();
         if ($authorFilter) {
@@ -132,5 +132,33 @@ class BookController extends Controller
     }
 
     // удаление книги
-    public function destroy($id): void {}
+    public function destroy(Request $request, $id): RedirectResponse
+    {
+        $book = Book::find($id);
+
+        if (!$book) {
+            return redirect()->route('books.index')
+                ->with('error', 'Книга не найдена');
+        }
+
+        try {
+            $book->authors()->detach();
+            $book->delete();
+
+            return redirect()->route('books.index')
+                ->with('success', 'Книга успешно удалена');
+        } catch (\Exception $e) {
+            Log::error('[BookController::destroy] Ошибка при удалении книги', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->except('_token')
+            ]);
+
+            return back()->with([
+                'error' => 'Ошибка при удалении книги',
+            ]);
+        }
+    }
 }

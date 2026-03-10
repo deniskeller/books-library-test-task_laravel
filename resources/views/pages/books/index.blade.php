@@ -61,7 +61,8 @@
                                             class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Редактировать
                                         </a>
-                                        <form action="/books/<?= $book['id'] ?>" method="POST" class="d-inline">
+                                        <form action="{{ route('books.destroy', $book->id) }}" method="POST"
+                                            class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-outline-danger"
