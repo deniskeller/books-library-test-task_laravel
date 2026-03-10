@@ -57,7 +57,8 @@
                                 <td>{{ $book->year }}</td>
                                 <td>
                                     <div class="action-buttons">
-                                        <a href="/books/<?= $book['id'] ?>/edit" class="btn btn-sm btn-outline-primary">
+                                        <a href="{{ route('books.edit', $book->id) }}"
+                                            class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i> Редактировать
                                         </a>
                                         <form action="/books/<?= $book['id'] ?>" method="POST" class="d-inline">
@@ -118,7 +119,7 @@
 
     <div class="row mt-4">
         <div class="col-12">
-            <a href="{{ route('books.edit') }}" class="btn btn-success">
+            <a href="{{ route('books.create') }}" class="btn btn-success">
                 <i class="bi bi-plus-circle"></i> Добавить новую книгу
             </a>
         </div>

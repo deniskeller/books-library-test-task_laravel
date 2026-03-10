@@ -19,8 +19,7 @@ class BookController extends Controller
         $authors = Author::all();
         $authorFilter = $request->input('book-filter-author');
 
-        $perPage = 2;
-        // $paginator = Book::paginate($perPage);
+        $perPage = 10;
 
         $query = Book::query();
         if ($authorFilter) {
@@ -44,15 +43,6 @@ class BookController extends Controller
             'selectedAuthorIds' => []
         ]);
     }
-
-    // рендер страницы редатирования книги
-    public function edit($id): View
-    {
-        return view('pages.books.edit');
-    }
-
-    // редактирование пданных книги
-    public function update(): void {}
 
     // запись новой книги в таблицу
     public function store(StoreBookRequest  $request): RedirectResponse
@@ -80,6 +70,63 @@ class BookController extends Controller
 
             return back()->withInput()->with([
                 'error' => 'Ошибка при добавлении книги',
+            ]);
+        }
+    }
+
+    // рендер страницы редатирования книги
+    public function edit($id): RedirectResponse|View
+    {
+        $book = Book::find($id);
+
+        if (!$book) {
+            return redirect()->route('books.index')
+                ->with('error', 'Книга не найдена');
+        }
+
+        $authors = Author::orderBy('name')->get();
+        $selectedAuthorIds = $book->authors->pluck('id')->toArray();
+
+        return view('pages.books.edit', [
+            'book' => $book,
+            'authors' => $authors,
+            'selectedAuthorIds' => old('authors_ids', $selectedAuthorIds)
+        ]);
+    }
+
+    // редактирование пданных книги
+    public function update(StoreBookRequest $request, $id): RedirectResponse
+    {
+        $book = Book::find($id);
+
+        if (!$book) {
+            return redirect()->route('books.index')
+                ->with('error', 'Книга не найдена');
+        }
+
+        $validated = $request->validated();
+
+        try {
+            $book->update([
+                'title' => $validated['title'],
+                'year' => $validated['year']
+            ]);
+
+            $book->authors()->sync($validated['authors_ids']);
+
+            return redirect()->route('books.index')
+                ->with('success', 'Книга успешно отредактирована');
+        } catch (\Exception $e) {
+            Log::error('[BookController::update] Ошибка при редактировании книги', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->except('_token')
+            ]);
+
+            return back()->withInput()->with([
+                'error' => 'Ошибка при редактировании книги',
             ]);
         }
     }
