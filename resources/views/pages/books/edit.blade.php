@@ -3,7 +3,7 @@
 @section('title', isset($book) ? 'Редактирование книги' : 'Добавление книги')
 
 @section('content')
-    <div class="row">
+    <div class="row col-12 col-md-6">
         <h1><?= isset($book) ? 'Редактирование книги' : 'Добавление книги' ?></h1>
 
         <form method="POST" action="{{ isset($book) ? route('books.update', $book->id) : route('books.store') }}">

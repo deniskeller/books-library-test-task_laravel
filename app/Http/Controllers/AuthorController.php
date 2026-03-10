@@ -20,6 +20,38 @@ class AuthorController extends Controller
         return view('pages.authors.index', compact('authors'));
     }
 
+    public function create(): View
+    {
+        return view('pages.authors.edit', ['author' => null]);
+    }
+
+    public function store(): void
+    {
+        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //     $name = trim($_POST['name']);
+
+        //     // Валидация данных
+        //     $errors = $this->authorService->validateAuthorData($_POST);
+
+        //     if (!empty($errors)) {
+        //         $_SESSION['errors'] = $errors;
+        //         $_SESSION['old_data'] = $_POST;
+        //         Route::redirect('/authors/create');
+        //     }
+
+        //     if ($this->authorModel->create($name)) {
+        //         unset($_SESSION['old_data']);
+        //         unset($_SESSION['errors']);
+
+        //         $_SESSION['success'] = 'Автор успешно добавлен';
+        //         Route::redirect('/authors');
+        //     } else {
+        //         $_SESSION['error'] = 'Ошибка при добавлении автора';
+        //         Route::redirect('/authors/create');
+        //     }
+        // }
+    }
+
     public function destroy(Request $request, $id): RedirectResponse
     {
         $author = Author::find($id);
