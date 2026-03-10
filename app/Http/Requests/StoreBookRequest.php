@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Author;
 use App\Rules\NoHtmlTags;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,10 +24,13 @@ class StoreBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'title' => 'required|string|min:2|max:255|regex:/^[^<>]*$/',
             'title' => ['required', 'string', 'min:2', 'max:255', new NoHtmlTags],
             'year' => 'required|integer|min:1000|max:' . date('Y'),
-            'authors_ids' => 'required|array|min:1',
+            'authors_ids' => [
+                $this->getAuthorsRequiredRules(),
+                'array',
+                'min:1'
+            ],
         ];
     }
 
@@ -50,5 +54,14 @@ class StoreBookRequest extends FormRequest
         return [
             'title' => 'название книги',
         ];
+    }
+
+    private function getAuthorsRequiredRules(): string
+    {
+        if (Author::exists()) {
+            return 'required';
+        }
+
+        return 'nullable';
     }
 }

@@ -55,7 +55,10 @@ class BookController extends Controller
                 'year' => $validated['year']
             ]);
 
-            $book->authors()->attach($validated['authors_ids']);
+            // $book->authors()->attach($validated['authors_ids']);
+            if ($request->has('authors_ids') && !empty($validated['authors_ids'])) {
+                $book->authors()->attach($validated['authors_ids']);
+            }
 
             return redirect()->route('books.index')
                 ->with('success', 'Книга успешно добавлена');
@@ -112,7 +115,12 @@ class BookController extends Controller
                 'year' => $validated['year']
             ]);
 
-            $book->authors()->sync($validated['authors_ids']);
+            // $book->authors()->sync($validated['authors_ids']);
+
+            if ($request->has('authors_ids') && !empty($validated['authors_ids'])) {
+                $book->authors()->sync($validated['authors_ids']);
+            }
+
 
             return redirect()->route('books.index')
                 ->with('success', 'Книга успешно отредактирована');

@@ -7,6 +7,7 @@ use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
@@ -24,8 +25,33 @@ class AuthorController extends Controller
         return view('pages.authors.index', compact('authors'));
     }
 
-    public function destroy($id): void
+    public function destroy(Request $request, $id): RedirectResponse
     {
-        dump($id);
+        $author = Author::find($id);
+
+        if (!$author) {
+            return redirect()->route('authors.index')
+                ->with('error', 'Автор не найдена');
+        }
+
+        try {
+            $author->books()->detach();
+            $author->delete();
+
+            return redirect()->route('authors.index')
+                ->with('success', 'Автор успешно удален');
+        } catch (\Exception $e) {
+            Log::error('[AuthorController::destroy] Ошибка при удалении автора', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->except('_token')
+            ]);
+
+            return back()->with([
+                'error' => 'Ошибка при удалении автора',
+            ]);
+        }
     }
 }
