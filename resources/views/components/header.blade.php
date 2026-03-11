@@ -36,7 +36,7 @@
                         </li>
                     @else
                         <li><a class="nav-link" href="{{ route('login') }}">Вход</a></li>
-                        {{-- <li><a class="nav-link" href="{{ route('register') }}">Регистрация</a></li> --}}
+                        <li><a class="nav-link" href="{{ route('register') }}">Регистрация</a></li>
                     @endauth
                 </ul>
             </div>
