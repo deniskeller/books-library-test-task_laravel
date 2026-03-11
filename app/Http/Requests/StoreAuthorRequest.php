@@ -33,7 +33,6 @@ class StoreAuthorRequest extends FormRequest
             'name.required' => 'Поле обязательно для заполнения',
             'name.min' => 'Имя автора должно состоять минимум из 2 символов',
             'name.max' => 'Имя автора должно состоять максимум из 255 символов',
-            'name.regex' => 'HTML-теги запрещены',
             'name.unique' => 'Такой автор уже существует',
         ];
     }

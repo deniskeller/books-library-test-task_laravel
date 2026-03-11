@@ -170,8 +170,8 @@ class BookController extends Controller
         }
     }
 
-    public function show($id, $category = 'post')
+    public function show($book, $category = 'post')
     {
-        echo 'id: ' . $id . '<br>' . 'category: ' . $category;
+        echo 'book: ' . $book . '<br>' . 'category: ' . $category;
     }
 }

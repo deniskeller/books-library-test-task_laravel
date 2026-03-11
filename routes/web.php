@@ -2,15 +2,15 @@
 
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.welcome');
 });
 
-Route::get('/login', function () {
-    return view('pages.login');
-})->middleware('guest')->name('login');
+Route::get('/login', [LoginController::class, 'show'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
 
 // роуты книг
 Route::get('/books', [BookController::class, 'index'])->name('books.index'); // страница книг
@@ -20,7 +20,7 @@ Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.e
 Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update'); // сохранение отредактированной книги
 Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy'); // удаления книги
 
-Route::get('books/{id}/category/{category}', [BookController::class, 'show']); // тестовый роут для нескольких параметров
+Route::get('books/{book}/category/{category}', [BookController::class, 'show']); // тестовый роут для нескольких параметров
 
 // роуты авторов
 Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index'); // страница авторов
