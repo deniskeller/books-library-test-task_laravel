@@ -27,7 +27,7 @@
                             <div>роль: {{ Auth::user()->user_role }}</div>
                         </li>
                         <li>
-                            <form action="/logout" method="POST" class="d-inline">
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-outline-danger"
                                     onclick="return confirm('Уверены что хотите выйти из профиля?')">Выход

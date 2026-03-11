@@ -15,7 +15,7 @@ Route::get('/', function () {
 // роуты авторизацции
 Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // роуты регистрации
 Route::get('/register', [RegisterController::class, 'show'])->name('register');

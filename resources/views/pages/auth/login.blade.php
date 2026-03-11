@@ -31,6 +31,6 @@
 
         <button type="submit" class="btn btn-primary">Войти</button>
 
-        <a class="ml-2" href="/">На главную</a>
+        <a class="ml-2" href="{{ route('welcome') }}">На главную</a>
     </form>
 @endsection
